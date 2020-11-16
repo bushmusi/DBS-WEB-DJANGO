@@ -6,8 +6,8 @@ from django.dispatch import receiver
 # Create your models here.
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_num = models.CharField(max_length=200)
-    is_verified = models.BooleanField()
+    phone_num = models.CharField(max_length=200,null=True)
+    is_verified = models.BooleanField(null=True)
 @receiver(post_save, sender=User)
 def create_user_account(sender, instance, created, **kwargs):
     if created:
@@ -78,6 +78,7 @@ class House(models.Model):
      area = models.FloatField(max_length=200)
      bank_loan = models.CharField(max_length=200)
      bed_unit = models.IntegerField()
+     description = models.CharField(max_length=1000)
 class WatchList(models.Model):
      user_id = models.ForeignKey(User, on_delete=models.CASCADE)
      item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE)
