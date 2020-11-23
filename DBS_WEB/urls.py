@@ -32,7 +32,7 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('login/',views.login_view, name='login'),
     path('logout/',views.logout_view,name='logout'),
-    path('adminlte/',TemplateView.as_view(template_name='adminlte.html'),name='adminlte'),
+    path('',TemplateView.as_view(template_name='layouts/home.html'),name='adminlte'),
 
     path('customer/', include('customer.urls')),
     path('company/', include('company.urls')),

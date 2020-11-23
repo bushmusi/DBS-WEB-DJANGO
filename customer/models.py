@@ -2,12 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_num = models.CharField(max_length=200,null=True)
     is_verified = models.BooleanField(null=True)
+    # if(User.objects.exists):
+    #     def __str__(self):
+    #         return self.phone_num
+    
 @receiver(post_save, sender=User)
 def create_user_account(sender, instance, created, **kwargs):
     if created:
@@ -16,6 +21,7 @@ def create_user_account(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_account(sender, instance, **kwargs):
     instance.account.save()
+
 
 class ItemPost(models.Model):
      user_id = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -30,6 +36,8 @@ class ItemPost(models.Model):
 
          ],
      )
+     def __str__(self):
+         return self.title
 
 class Picture(models.Model):
     item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE)
@@ -82,6 +90,7 @@ class House(models.Model):
 class WatchList(models.Model):
      user_id = models.ForeignKey(User, on_delete=models.CASCADE)
      item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE)
+     
 
 
 class Alert(models.Model):
@@ -94,3 +103,15 @@ class Alert(models.Model):
 
          ]
      )
+
+class Rating(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    score = models.IntegerField(default=0,
+                                validators=[
+                                    MaxValueValidator(5),
+                                    MinValueValidator(1),
+                                ]
+                                )
+
+    def __str__(self):
+        return str(self.pk)

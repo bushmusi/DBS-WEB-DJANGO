@@ -43,4 +43,4 @@ def logout_view(request):
         return redirect('registration/login.html')   
 
 def adminlte(request):
-    return redirect('adminlte') 
+    return render('adminlte') 

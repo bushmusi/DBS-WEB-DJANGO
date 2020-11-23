@@ -6,4 +6,5 @@ app_name='customer'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('itempost',views.itemPost,name='itemPost')
 ]
