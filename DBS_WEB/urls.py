@@ -21,12 +21,16 @@ from django.shortcuts import render, redirect
 from . import views
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+
     path('', include('django.contrib.auth.urls')),
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    # path('home', TemplateView.as_view(template_name='layouts/body.html'), name='home'),
+    path('home', views.home, name='home'),
+    
     path('signup/', views.signup_view, name='signup'),
+    path('login/',views.login_view, name='login'),
     path('logout/',views.logout_view,name='logout'),
     path('adminlte/',TemplateView.as_view(template_name='adminlte.html'),name='adminlte'),
 

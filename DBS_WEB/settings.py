@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'customer.apps.CustomerConfig',
     'broker.apps.BrokerConfig',
     'company.apps.CompanyConfig',
+    'crispy_forms', #Used for using bootstrap 4 in fomrs
     
 ]
 
@@ -132,6 +133,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home' 

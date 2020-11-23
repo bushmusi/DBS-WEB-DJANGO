@@ -15,11 +15,12 @@
     <link rel="stylesheet" href="{% static "css/daterangepicker.css" %}">
     <link rel="stylesheet" href="{% static "css/summernote-bs4.css" %}">
     <link rel="stylesheet" href="{% static "css/css.css" %}">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> -->
  
     <title>Digital Brokery System</title>
 </head>
 <body>
+  <!-- base->header->sidenave->footer->body -->
 {% block content %}
 
 {% endblock content %}
@@ -29,6 +30,7 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button)
   </script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %} " ></script>
 <script src="{% static 'js/Chart.min.js' %} " ></script>
 <script src="{% static 'js/sparkline.js' %} " ></script>
 <script src="{% static 'js/jquery.vmap.min.js' %} " ></script>
