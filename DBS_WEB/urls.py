@@ -24,15 +24,13 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-
     path('', include('django.contrib.auth.urls')),
-    # path('home', TemplateView.as_view(template_name='layouts/body.html'), name='home'),
     path('home', views.home, name='home'),
+    path('',TemplateView.as_view(template_name='sysadmin/main_page_home.html'),name='adminlte'),
     
     path('signup/', views.signup_view, name='signup'),
     path('login/',views.login_view, name='login'),
     path('logout/',views.logout_view,name='logout'),
-    path('',TemplateView.as_view(template_name='layouts/home.html'),name='adminlte'),
 
     path('customer/', include('customer.urls')),
     path('company/', include('company.urls')),

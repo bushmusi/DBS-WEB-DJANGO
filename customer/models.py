@@ -3,15 +3,19 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.http import HttpResponse
 
-# Create your models here.
+# Temp trial line of code
+
+# Account is related to auth user model when ever user created account id also created
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_num = models.CharField(max_length=200,null=True)
+    phone_num = models.CharField(max_length=20,null=True)
     is_verified = models.BooleanField(null=True)
-    # if(User.objects.exists):
-    #     def __str__(self):
-    #         return self.phone_num
+    email = models.EmailField(max_length=50,unique=True,null=True)
+    if(User.objects.exists):
+        def __str__(self):
+            return self.user
     
 @receiver(post_save, sender=User)
 def create_user_account(sender, instance, created, **kwargs):
@@ -23,11 +27,13 @@ def save_user_account(sender, instance, **kwargs):
     instance.account.save()
 
 
+# This model contain item posted by system information
 class ItemPost(models.Model):
      user_id = models.ForeignKey(User, on_delete=models.CASCADE)
      title = models.CharField(max_length=200)
      item_name = models.CharField(max_length=200)
      item_price = models.IntegerField()
+     availabilty = models.BooleanField(null=True)
      item_type = models.CharField(
          max_length=200,
          choices=[
@@ -39,15 +45,20 @@ class ItemPost(models.Model):
      def __str__(self):
          return self.title
 
+
+#This picture class is related ItemPost model as far as their is a post their will be picture
 class Picture(models.Model):
     item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE)
     path_addr = models.CharField(max_length=200)
 
+
+# Car model is used for if a post is type of car this model get used
 class Cars(models.Model):
-     item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE)
-     car_model = models.CharField(max_length=200)
+     item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE,blank=True,null=True)
+     car_model = models.CharField(max_length=200,null=True)
      transmission = models.CharField(
          max_length=200,
+         null=True,
          choices=[
              ('manual','Manual'),
              ('automatic','Automatic'),
@@ -56,6 +67,7 @@ class Cars(models.Model):
      manu_year = models.DateField()
      engine_type = models.CharField(
          max_length=200,
+         null=True,
          choices=[
              ('diesel',"Diesel"),
              ('benzine', 'Benzine')
@@ -64,6 +76,7 @@ class Cars(models.Model):
      )
      car_condition = models.CharField(
          max_length=200,
+         null=True,
          choices=[
              ('new','New'),
              ('sl_used','Slightly Used'),
@@ -72,27 +85,34 @@ class Cars(models.Model):
      )
      drive_type = models.CharField(
          max_length=200,
+         null=True,
         choices=[
             ('two_wheel','2 Wheel Drive'),
             ('four_wheel','4 Wheel Drive'),
         ],
      )
-     car_color = models.CharField(max_length=200)
-     mileage = models.CharField(max_length=200)
-     description = models.CharField(max_length=1000)
+     car_color = models.CharField(max_length=200,null=True)
+     mileage = models.CharField(max_length=200,null=True)
+     description = models.CharField(max_length=1000,null=True)
+     def __str__(self):
+         return self.item_post_id
 
+# House model is used for if a post is type of house this model get used
 class House(models.Model):
      item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE)
      area = models.FloatField(max_length=200)
      bank_loan = models.CharField(max_length=200)
      bed_unit = models.IntegerField()
-     description = models.CharField(max_length=1000)
+     description = models.CharField(max_length=1000,null=True)
+
+# Watchlist model
 class WatchList(models.Model):
      user_id = models.ForeignKey(User, on_delete=models.CASCADE)
      item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE)
      
 
 
+# Alert model
 class Alert(models.Model):
      user_id = models.ForeignKey(User, on_delete=models.CASCADE)
      item_type = models.CharField(
@@ -104,8 +124,11 @@ class Alert(models.Model):
          ]
      )
 
+
+# Rating model
 class Rating(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    rated_user_id = models.IntegerField(blank=True,null=True)
     score = models.IntegerField(default=0,
                                 validators=[
                                     MaxValueValidator(5),
