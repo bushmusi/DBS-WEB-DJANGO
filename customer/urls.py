@@ -9,5 +9,6 @@ urlpatterns = [
 
 
     path('', views.index, name='index'),
-    path('itempost/',views.itemPostView,name='itempost')
+    path('carItemPost/',views.carItemPostView,name='carItemPost'),
+    path('houseItemPost/',views.houseItemPostView,name='houseItemPost')
 ]

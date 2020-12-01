@@ -12,11 +12,11 @@
         <!-- Signup form starts -->
         <div class="card card-default">
             <div class="card-header">
-                <h3 class="card-title"><h2>Upload Item</h2>
+                <h3 class="card-title"><h2>Upload house Item</h2>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form class="form-horizontal " method="POST" action="{% url 'customer:itempost' %}">
+            <form class="form-horizontal " method="POST" action="{% url 'customer:houseItemPost' %}">
 
                 {% if messages %}
                     {% for message in messages %}
@@ -42,41 +42,19 @@
                     <div class="form-group col-md-10 mb-0">
                         {{ form.item_price|as_crispy_field }}
                     </div>
-                    <div class="form-group col-md-10 mb-0">
-                        {{ form.item_type|as_crispy_field }}
-                    </div>
-                    <!-- Below are car forms -->
-                        <div class="form-group col-md-10 mb-0 d-none carForm">
-                            {{ carForm.car_model|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-10 mb-0 d-none carForm">
-                            {{ carForm.transmission|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-10 mb-0 d-none carForm">
-                            {{ carForm.manu_year|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-10 mb-0 d-none carForm">
-                            {{ carForm.engine_type|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-10 mb-0 d-none carForm">
-                            {{ carForm.car_condition|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-10 mb-0 d-none carForm">
-                            {{ carForm.drive_type|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-10 mb-0 d-none carForm">
-                            {{ carForm.car_color|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-10 mb-0 d-none carForm">
-                            {{ carForm.mileage|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-10 mb-0 d-none carForm">
-                            {{ carForm.description|as_crispy_field }}
-                        </div>
-                    <!-- End of car forms -->
-
                     <!-- Below are house forms -->
-
+                        <div class="form-group col-md-10 mb-0 houseForm">
+                            {{ houseForm.area|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-10 mb-0 houseForm">
+                            {{ houseForm.bank_loan|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-10 mb-0 houseForm">
+                            {{ houseForm.bed_unit|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-10 mb-0 houseForm">
+                            {{ houseForm.house_description|as_crispy_field }}
+                        </div>
                     <!-- End of house forms -->
                     
 

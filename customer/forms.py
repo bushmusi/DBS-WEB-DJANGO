@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import ItemPost, Account, Cars
+from .models import *
 from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse, HttpResponseRedirect
 
@@ -32,24 +32,37 @@ class AccountForm(forms.ModelForm):
             'phone_num': _('Enter valid phone number ex: 0910....'),
         }
 class CarsForm(forms.ModelForm):
-    manu_year = forms.DateField()
     class Meta:
         model = Cars
-        fields = ['car_model','transmission','manu_year','engine_type','car_condition','drive_type','car_color','mileage','description']
+        fields = ['car_model','transmission','manu_year','engine_type','car_condition','drive_type','car_color','mileage','car_description']
         help_texts = {
             'engine_type': _('It is optional'),
             'drive_type': _('It is optional '),
             'car_color': _('It is optional'),
             'mileage': _('It is optional '),
-            'description': _('It is optional '),
+            'car_description': _('It is optional '),
         }
         labels = {
-            'manu_year': _('Manufactured date* '),
             'car_color': _('Color Condition* '),
+            'manu_year': _('Manufactured date* '),
             }
         widgets={
             'description': forms.Textarea(attrs={'cols': 80, 'rows': 80})
         } 
-
+        
+class HouseForm(forms.ModelForm):
+    class Meta:
+        model = House
+        fields = ['area','bank_loan','bed_unit','house_description']
+        help_texts = {
+            'area': _('Size of area in meter'),
+            'description': _('Write up to 1000 character '),
+        }
+        labels = {
+            'area': _('Size Of The Area* '),
+            }
+        widgets={
+            'house_description': forms.Textarea(attrs={'cols': 80, 'rows': 80})
+        }
 
 

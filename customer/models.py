@@ -36,6 +36,8 @@ class ItemPost(models.Model):
      availabilty = models.BooleanField(null=True)
      item_type = models.CharField(
          max_length=200,
+         blank=True,
+         null=True,
          choices=[
              ('car','Car'),
              ('house','House'),
@@ -55,19 +57,21 @@ class Picture(models.Model):
 # Car model is used for if a post is type of car this model get used
 class Cars(models.Model):
      item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE,blank=True,null=True)
-     car_model = models.CharField(max_length=200,null=True)
+     car_model = models.CharField(max_length=200)
+     mileage = models.CharField(max_length=200) 
+     car_description = models.CharField(max_length=1000,null=True,blank=True)
      transmission = models.CharField(
          max_length=200,
-         null=True,
+         null=True,blank=True,
          choices=[
              ('manual','Manual'),
              ('automatic','Automatic'),
          ]
      )
-     manu_year = models.DateField()
+     manu_year = models.DateField(null=True,blank=True)
      engine_type = models.CharField(
          max_length=200,
-         null=True,
+         null=True,blank=True,
          choices=[
              ('diesel',"Diesel"),
              ('benzine', 'Benzine')
@@ -76,7 +80,7 @@ class Cars(models.Model):
      )
      car_condition = models.CharField(
          max_length=200,
-         null=True,
+        #  null=True,blank=True,
          choices=[
              ('new','New'),
              ('sl_used','Slightly Used'),
@@ -85,25 +89,39 @@ class Cars(models.Model):
      )
      drive_type = models.CharField(
          max_length=200,
-         null=True,
-        choices=[
+         null=True,blank=True,
+         choices=[
             ('two_wheel','2 Wheel Drive'),
             ('four_wheel','4 Wheel Drive'),
-        ],
+         ],
      )
-     car_color = models.CharField(max_length=200,null=True)
-     mileage = models.CharField(max_length=200,null=True)
-     description = models.CharField(max_length=1000,null=True)
-     def __str__(self):
-         return self.item_post_id
+     car_color = models.CharField(
+         max_length=200,
+        #  null=True,
+        #  blank=True,
+         choices=[
+            ('old','It\'s own color'),
+            ('New','Color renewed'),
+         ],
+    )
+
 
 # House model is used for if a post is type of house this model get used
 class House(models.Model):
      item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE)
-     area = models.FloatField(max_length=200)
-     bank_loan = models.CharField(max_length=200)
-     bed_unit = models.IntegerField()
-     description = models.CharField(max_length=1000,null=True)
+     area = models.FloatField(max_length=200,null=True,blank=True)
+     bank_loan = models.CharField(
+         max_length=200,null=True,blank=True,
+         choices=[
+             ('free','Free'),
+             ('depted','Depted')
+         ]
+    )
+     bed_unit = models.IntegerField(null=True,blank=True)
+     house_description = models.CharField(max_length=1000,null=True,blank=True)
+
+     def __str__(self):
+         return self.item_post_id
 
 # Watchlist model
 class WatchList(models.Model):
