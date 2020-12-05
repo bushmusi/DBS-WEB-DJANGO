@@ -9,6 +9,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 # trial line of code
 
 
+# Done by biniam
+
+class PictureForm(forms.ModelForm):
+    class Meta:
+        model=Picture
+        fields = ['path_addr'] 
+        
+# end of done by biniam
+
 
 class ItemPostForm(forms.ModelForm):
     class Meta:
@@ -47,7 +56,7 @@ class CarsForm(forms.ModelForm):
             'manu_year': _('Manufactured date* '),
             }
         widgets={
-            'description': forms.Textarea(attrs={'cols': 80, 'rows': 80})
+            'car_description': forms.Textarea(attrs={'cols': 80, 'rows': 80})
         } 
         
 class HouseForm(forms.ModelForm):

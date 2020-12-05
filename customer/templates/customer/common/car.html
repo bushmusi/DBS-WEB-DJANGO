@@ -1,9 +1,7 @@
-
 {% extends 'common/user_home.html' %}
 
 {% block main_content %}
-    
-    
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -80,6 +78,8 @@
 
                                 <hr>
                                 <h4>Rate:</h4>
+                                <form method="POST">
+                                  {% csrf_token %}
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                   <div class="rating text-left"> 
                                     <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
@@ -89,6 +89,7 @@
                                     <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
                                   </div>
                                 </div>
+                              </form>
 
 
                                 <div class="bg-gray py-2 px-3 mt-4">
@@ -196,6 +197,8 @@
     </div><!-- /.container-fluid -->
   </section>
   <!-- /.content -->
-</div>
 
 {% endblock main_content %}
+
+
+    

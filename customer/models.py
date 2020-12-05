@@ -52,7 +52,8 @@ class ItemPost(models.Model):
 class Picture(models.Model):
     item_post_id = models.ForeignKey(ItemPost, on_delete=models.CASCADE)
     path_addr = models.CharField(max_length=200)
-
+    def __str__(self):
+        return self.path_addr
 
 # Car model is used for if a post is type of car this model get used
 class Cars(models.Model):
@@ -104,6 +105,9 @@ class Cars(models.Model):
             ('New','Color renewed'),
          ],
     )
+    # def __str__(self):
+    #     return self.item_post_id
+
 
 
 # House model is used for if a post is type of house this model get used
