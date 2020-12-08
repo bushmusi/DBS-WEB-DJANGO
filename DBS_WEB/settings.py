@@ -26,7 +26,7 @@ SECRET_KEY = 'f2$4b9j%wws(m99%(x4cgk5yz=$q-1b=0ubift%wsucf^^5j74'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.240.72.7','127.0.0.1']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'broker.apps.BrokerConfig',
     'company.apps.CompanyConfig',
     'crispy_forms', #Used for using bootstrap 4 in fomrs
+    'django_filters'
     
 ]
 
@@ -68,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -136,8 +138,8 @@ STATICFILES_DIRS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home' 
+LOGIN_REDIRECT_URL = 'customer:index'
+LOGOUT_REDIRECT_URL = 'customer:index' 
 
 # email setup using smtp
 # done by biniam
@@ -148,5 +150,8 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'biniamh3@gmail.com' 
 EMAIL_HOST_PASSWORD = 'Bini@1234'
+
+MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
+MEDIA_URL= "/media/"
 
 # done by biniam

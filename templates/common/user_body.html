@@ -2,179 +2,262 @@
 {% extends 'common/user_home.html' %}
 
 {% block main_content %}
-    
+ 
+
     
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
       <div class="row">
-
         <!-- Post list container starts -->
         <div class="col-md-8">
-
               <!-- Main content -->
                 <section class="content">
+                  <!-- Start search item  -->
+                      <form  method="get">
+                        {{myFilter.form}}
+                        <button type="submit">Search</button>
+                      </form>
+                      
+                  <!-- End search item -->
+                  {% comment %}
+                      {% if  request.resolver_match.url_name == 'house' or request.resolver_match.url_name == 'car'  % }
+                  {% endcomment %}
+                    
+                  
+                  {% if request.resolver_match.url_name == 'house' or  request.resolver_match.url_name == 'car' %}
                     
                     {% for post in posts %}
-                        <!-- Default box -->
-                        <div class="card card-solid">
-                          <div class="card-body">
 
-                            <div class="ribbon-wrapper">
-                              {% if post.availabilty %}
-                                <div class="ribbon bg-danger">
-                                  Sold out
+                      <!-- Default box -->
+                      <div class="card card-solid">
+                        <div class="card-body">
+
+                          <div class="ribbon-wrapper">
+                            {% if post.availabilty %}
+                              <div class="ribbon bg-danger">
+                                Sold out
+                              </div>
+                            {% else %}
+                              <div class="ribbon bg-success">
+                                Available
+                              </div>
+                            {% endif %}
+
+                          </div>
+
+                          <div class="row">
+                            <div class="col-12 col-sm-6">
+                              <h3 class="d-inline-block d-sm-none"></h3>
+                              <div class="col-12">
+                                {% load static %}
+                                <a href="#" target="_blank" rel="noopener noreferrer">
+                                  
+                                  {% for item in itemList %}
+                                    {% for u in item.picture_set.all %}
+                                        
+                                        {% if u.item_post_id.id == post.item_post_id.id %}
+                                            <img src="{{ MEDIA_URL }}{{ u.path_addr }}" class="product-image" alt="Product Image">
+                                        {% endif %}
+                                        
+                                        {% comment %}
+                                          <img src="{{ MEDIA_URL }}{{ u.path_addr }}" class="product-image" alt="Product Image">
+                                        {% endcomment %}
+                                          
+                                        
+                                    {% endfor %}
+                                  {% endfor %}
+                                    
+
+                                </a>
+                                
+                              </div>
+                              {% if post.item_post_id.item_type == 'house' %}
+                                  <div id='map{{ post.id|escapejs }}' style='width: 350px; height: 300px;'  class="mt-2 ">
+                                    
+                                  </div>
+                                  <script>
+                                    temp  =  'map'+'{{ post.id|escapejs }}';
+                                    var longt =  '{{ post.lat|escapejs }}' ;
+                                    var lat = '{{ post.longt|escapejs }}';
+                                    console.log('longt: '+longt+' lat: '+lat)
+                                    mapboxgl.accessToken = 'pk.eyJ1IjoiYnVzaG11c2kiLCJhIjoiY2tpYzc5MG11MDR0eTJ1bndmNHg1cWhpYyJ9.hnq3L3LOIUA5Y_w-KsVEow';
+                                    var map = new mapboxgl.Map({
+                                        container: 'map'+'{{ post.id|escapejs }}',
+                                        // style: 'mapbox://styles/mapbox/streets-v11'
+                                        style: 'mapbox://styles/mapbox/streets-v10',
+                                        center: [longt,lat],
+                                        zoom: 3,
+                                        // bearing: 180,
+                                    });
+                                    var marker = new mapboxgl.Marker() // initialize a new marker
+                                        .setLngLat([longt,lat]) // Marker [lng, lat] coordinates
+                                        .addTo(map); // Add the marker to the map
+                                    // </script>
+                              {% endif %}    
+                            </div>
+                            <div class="col-12 col-sm-6">
+                              <a href="#" target="_blank" rel="noopener noreferrer" class="bootstrap-link">
+                                <h3 class="my-3">{{ post.item_post_id.item_name }} **** {{ post.item_post_id.serviceType }}</h3>
+                              </a>
+                              
+                              <p>{{ post.item_post_id.description }}</p>
+                              <div class="col-md-12">
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {% if post.item_post_id.item_type == 'house' %}
+                                        <tr>
+                                          <td ><strong>Area:</strong> </td>
+                                          <td>{{post.area}}</td>
+                                        </tr>
+                                        <tr>
+                                          <td ><strong>Bank Loan:</strong> </td>
+                                          <td>{{post.bank_loan}}</td>
+                                        </tr>
+                                        <tr>
+                                          <td ><strong>Bed Unit:</strong> </td>
+                                          <td>{{post.bed_unit}}</td>
+                                        </tr>
+                                      {% endif %}
+                                      {% if post.item_post_id.item_type == 'car' %}
+                                      <tr>
+                                        <td ><strong>Model:</strong> </td>
+                                        <td>{{post.car_model}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td ><strong>Mileage:</strong> </td>
+                                        <td>{{post.mileage}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td ><strong>Transmition:</strong> </td>
+                                        <td>{{post.transmission}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td ><strong>Engine:</strong> </td>
+                                        <td>{{post.engine_type}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td ><strong>Condition:</strong> </td>
+                                        <td>{{post.car_condition}}</td>
+                                      </tr>
+                                    {% endif %}
+                                        
+                                    </tbody>
+                                  </table>
+                              </div>
+                              
+                              <hr>
+                              <h4>Rate:</h4>
+                              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <div class="rating text-left"> 
+                                  <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
+                                  <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
+                                  <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> 
+                                  <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
+                                  <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
                                 </div>
-                              {% else %}
-                                <div class="ribbon bg-success">
-                                  Available
+                              </div>
+
+
+                              <div class="bg-gray py-2 px-3 mt-4">
+                                <h2 class="mb-0">
+                                  {{post.item_post_id.item_price}} Birr
+                                </h2>
+                              </div>
+                              
+                              {% if user.is_authenticated %}
+                                <div class="mt-4">
+                                  <form action="{% url 'customer:submitWishList' %}" method="post">
+                                    <button type="submit">
+                                      <div class="btn btn-default btn-lg btn-flat">
+                                        <i class="fas fa-heart fa-lg mr-2"></i> 
+                                          Add to Wishlist
+                                      </div>
+                                    </button>
+                                </form>
+
                                 </div>
                               {% endif %}
+                              <div class="mt-4 product-share">
+                                <a href="#" class="text-gray">
+                                  <i class="fab fa-facebook-square fa-2x"></i>
+                                </a>
+                                <a href="#" class="text-gray">
+                                  <i class="fab fa-twitter-square fa-2x"></i>
+                                </a>
+                                <a href="#" class="text-gray">
+                                  <i class="fas fa-envelope-square fa-2x"></i>
+                                </a>
+                                <a href="#" class="text-gray">
+                                  <i class="fas fa-rss-square fa-2x"></i>
+                                </a>
+                              </div>
 
                             </div>
-
-                            <div class="row">
-                              <div class="col-12 col-sm-6">
-                                <h3 class="d-inline-block d-sm-none"></h3>
-                                <div class="col-12">
-                                  {% load static %}
-                                  <img src="{% static 'images/user2-160x160.jpg' %}" class="product-image" alt="Product Image">
-                                </div>
-                                <div class="col-12 product-image-thumbs">
-                                  <div class="product-image-thumb active"><img src="{% static 'images/ap.jpg' %}" alt="Product Image"></div>
-                                  <div class="product-image-thumb" ><img src="{% static 'images/house 4.jpg' %}" alt="Product Image"></div>
-                                  <div class="product-image-thumb" ><img src="{% static 'images/house 2.png' %}" alt="Product Image"></div>
-                                  <div class="product-image-thumb" ><img src="{% static 'images/house 3.jfif' %}" alt="Product Image"></div>
-                                  <div class="product-image-thumb" ><img src="{% static 'images/house 5.jfif' %}" alt="Product Image"></div>
-                                </div>
+                          </div>
+                          <div class="row mt-4">
+                            <nav class="w-100">
+                              <div class="nav nav-tabs" id="product-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
                               </div>
-                              <div class="col-12 col-sm-6">
-                                <h3 class="my-3">{{ post.title }}</h3>
-                                <p>{{ post.description }}</p>
-                                <div class="col-md-12">
-                                    <table class="table">
-                                      <thead>
-                                        <tr>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr >
-                                          <td ><strong>Item Name:</strong> </td>
-                                          <td>{{post.item_name}}</td>
-                                        </tr>
-                                        <tr>
-                                          <td ><strong>Item title:</strong> </td>
-                                          <td>{{post.title}}</td>
-                                        </tr>
-                                        <tr>
-                                          <td ><strong>Item Price:</strong> </td>
-                                          <td>{{post.item_price}}</td>
-                                        </tr>
-                                        <tr>
-                                          <td ><strong>Item Type:</strong> </td>
-                                          <td>{{post.item_type}}</td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                </div>
-
-                                <hr>
-                                <h4>Rate:</h4>
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                  <div class="rating text-left"> 
-                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
-                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
-                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> 
-                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
-                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
-                                  </div>
-                                </div>
-
-
-                                <div class="bg-gray py-2 px-3 mt-4">
-                                  <h2 class="mb-0">
-                                    {{post.item_price}} Birr
-                                  </h2>
-                                  <h4 class="mt-0">
-                                    <small>Ex Tax: $80.00 </small>
-                                  </h4>
-                                </div>
-
-                                <div class="mt-4">
-                                  <div class="btn btn-primary btn-lg btn-flat">
-                                    <i class="fas fa-cart-plus fa-lg mr-2"></i> 
-                                    Add to Cart
-                                  </div>
-
-                                  <div class="btn btn-default btn-lg btn-flat">
-                                    <i class="fas fa-heart fa-lg mr-2"></i> 
-                                    Add to Wishlist
-                                  </div>
-                                </div>
-
-                                <div class="mt-4 product-share">
-                                  <a href="#" class="text-gray">
-                                    <i class="fab fa-facebook-square fa-2x"></i>
-                                  </a>
-                                  <a href="#" class="text-gray">
-                                    <i class="fab fa-twitter-square fa-2x"></i>
-                                  </a>
-                                  <a href="#" class="text-gray">
-                                    <i class="fas fa-envelope-square fa-2x"></i>
-                                  </a>
-                                  <a href="#" class="text-gray">
-                                    <i class="fas fa-rss-square fa-2x"></i>
-                                  </a>
-                                </div>
-
-                              </div>
-                            </div>
-                            <div class="row mt-4">
-                              <nav class="w-100">
-                                <div class="nav nav-tabs" id="product-tab" role="tablist">
-                                  <a class="nav-item nav-link " id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
-                                  <!-- <a class="nav-item nav-link active" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Comments</a>
-                                  <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a> -->
-                                </div>
-                              </nav>
-                              <div class="tab-content p-3" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">This apartment </div>
-                                <!-- <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab"> Vivamus rhoncus nisl sed venenatis luctus. Sed condimentum risus ut tortor feugiat laoreet. Suspendisse potenti. Donec et finibus sem, ut commodo lectus. Cras eget neque dignissim, placerat orci interdum, venenatis odio. Nulla turpis elit, consequat eu eros ac, consectetur fringilla urna. Duis gravida ex pulvinar mauris ornare, eget porttitor enim vulputate. Mauris hendrerit, massa nec aliquam cursus, ex elit euismod lorem, vehicula rhoncus nisl dui sit amet eros. Nulla turpis lorem, dignissim a sapien eget, ultrices venenatis dolor. Curabitur vel turpis at magna elementum hendrerit vel id dui. Curabitur a ex ullamcorper, ornare velit vel, tincidunt ipsum. </div>
-                                <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab"> Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac habitasse platea dictumst. Aenean elementum leo augue, id fermentum risus efficitur vel. Nulla iaculis malesuada scelerisque. Praesent vel ipsum felis. Ut molestie, purus aliquam placerat sollicitudin, mi ligula euismod neque, non bibendum nibh neque et erat. Etiam dignissim aliquam ligula, aliquet feugiat nibh rhoncus ut. Aliquam efficitur lacinia lacinia. Morbi ac molestie lectus, vitae hendrerit nisl. Nullam metus odio, malesuada in vehicula at, consectetur nec justo. Quisque suscipit odio velit, at accumsan urna vestibulum a. Proin dictum, urna ut varius consectetur, sapien justo porta lectus, at mollis nisi orci et nulla. Donec pellentesque tortor vel nisl commodo ullamcorper. Donec varius massa at semper posuere. Integer finibus orci vitae vehicula placerat. </div> -->
+                            </nav>
+                            <div class="tab-content p-3" id="nav-tabContent">
+                              <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
+                                {% autoescape off %}
+                                  {% if post.item_post_id.item_type == 'house' %}
+                                    {{ post.house_description }}
+                                  {% endif %}
+                                  {% if post.item_post_id.item_type == 'car' %}
+                                    {{ post.car_description }}
+                                  {% endif %}
+                                {% endautoescape %}
                               </div>
                             </div>
                           </div>
-                          <!-- /.card-body -->
                         </div>
-                        <!-- /.card -->
-                        <hr>
+                        <!-- /.card-body -->
+                      </div>
+                      <!-- /.card -->
+                      <hr>
                     {% endfor %}
-                  
-                    {% if posts.has_other_pages %}
-                      <ul class="pagination">
-                        {% if posts.has_previous %}
-                          <li class="page-item"><a href="?page={{ users.previous_page_number }}" class="page-link">&laquo;</a></li>
-                        {% else %}
-                          <li class="page-item disabled"><span>&laquo;</span></li>
-                        {% endif %}
-                        {% for i in posts.paginator.page_range %}
-                          {% if posts.number == i %}
-                            <li class="page-item active">
-                              <a href="?page={{ i }}" class="page-link">
-                                  <span>{{ i }} <span class="sr-only">(current)</span></span>
-                              </a>
-                            </li>
+                
+                      {% if posts.has_other_pages %}
+                        <ul class="pagination">
+                          {% if posts.has_previous %}
+                            <li class="page-item"><a href="?page={{ users.previous_page_number }}" class="page-link">&laquo;</a></li>
                           {% else %}
-                            <li class="page-item"><a href="?page={{ i }}"  class="page-link">{{ i }} </a></li>
+                            <li class="page-item disabled"><span>&laquo;</span></li>
                           {% endif %}
-                        {% endfor %}
-                        {% if posts.has_next %}
-                          <li class="page-item"><a href="?page={{ users.next_page_number }}"  class="page-link">&raquo;</a></li>
-                        {% else %}
-                          <li class="page-item disabled"><span>&raquo;</span></li>
-                        {% endif %}
-                      </ul>
-                    {% endif %}
+                          {% for i in posts.paginator.page_range %}
+                            {% if posts.number == i %}
+                              <li class="page-item active">
+                                <a href="?page={{ i }}" class="page-link">
+                                    <span>{{ i }} <span class="sr-only">(current)</span></span>
+                                </a>
+                              </li>
+                            {% else %}
+                              <li class="page-item"><a href="?page={{ i }}"  class="page-link">{{ i }} </a></li>
+                            {% endif %}
+                          {% endfor %}
+                          {% if posts.has_next %}
+                            <li class="page-item"><a href="?page={{ users.next_page_number }}"  class="page-link">&raquo;</a></li>
+                          {% else %}
+                            <li class="page-item disabled"><span>&raquo;</span></li>
+                          {% endif %}
+                        </ul>
+                      {% endif %}
+              
+                  {% else %}
+                    
+                    {% include 'common/user_body_home.html' %}
+                    
+                  {% endif %}
+
+                      
                 </section>
                 <!-- /.content -->
 

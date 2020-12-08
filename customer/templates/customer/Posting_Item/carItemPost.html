@@ -16,7 +16,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form class="form-horizontal " method="POST" action="{% url 'customer:carItemPost' %}">
+            <form class="form-horizontal " method="POST" action="{% url 'customer:carItemPost' %}"  enctype="multipart/form-data">
 
                 {% if messages %}
                     {% for message in messages %}
@@ -32,15 +32,17 @@
                 {% load crispy_forms_tags %}
                 <!-- custome -->
                 {% csrf_token %}
-                <div class="form-group col-md-6">
-                    <div class="form-group col-md-10 mb-0">
-                        {{ form.title|as_crispy_field }}
-                    </div>
+                <div class="form-group col-md-10 row">
                     <div class="form-group col-md-10 mb-0">
                         {{ form.item_name|as_crispy_field }}
                     </div>
+                
                     <div class="form-group col-md-10 mb-0">
                         {{ form.item_price|as_crispy_field }}
+                    </div>
+                    
+                    <div class="form-group col-md-10 mb-0">
+                        {{ form.serviceType|as_crispy_field }}
                     </div>
                     <!-- Below are car forms -->
                         <div class="form-group col-md-10 mb-0  carForm">
@@ -70,13 +72,11 @@
                         <div class="form-group col-md-10 mb-0  carForm">
                             {{ carForm.car_description|as_crispy_field }}
                         </div>
+                        <div class="form-group col-md-10 mb-0 houseForm">
+                            {{picForm.as_table }}
+                        </div>
                     <!-- End of car forms -->
 
-                </div>
-                <div class="form-group col-md-6 ">
-                    <div class="form-group col-md-10 mb-0  carForm">
-                        {{ carForm.car_description|as_crispy_field }}
-                    </div>
                 </div>
                 <!-- /.card-footer -->
                 <div class="card-footer">

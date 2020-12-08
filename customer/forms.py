@@ -22,7 +22,7 @@ class PictureForm(forms.ModelForm):
 class ItemPostForm(forms.ModelForm):
     class Meta:
         model=ItemPost
-        fields = ['title','item_name','item_price','item_type'] 
+        fields = ['item_name','item_price','item_type','serviceType'] 
         error_messages = {
             'title': {
                 'max_length': _('fixed length enter')
@@ -49,7 +49,6 @@ class CarsForm(forms.ModelForm):
             'drive_type': _('It is optional '),
             'car_color': _('It is optional'),
             'mileage': _('It is optional '),
-            'car_description': _('It is optional '),
         }
         labels = {
             'car_color': _('Color Condition* '),
@@ -62,13 +61,14 @@ class CarsForm(forms.ModelForm):
 class HouseForm(forms.ModelForm):
     class Meta:
         model = House
-        fields = ['area','bank_loan','bed_unit','house_description']
+        fields = ['area','bank_loan','bed_unit','house_description','lat','longt']
         help_texts = {
             'area': _('Size of area in meter'),
-            'description': _('Write up to 1000 character '),
         }
         labels = {
             'area': _('Size Of The Area* '),
+            'lat': _('Latitude'),
+            'longt': _('Longitude ')
             }
         widgets={
             'house_description': forms.Textarea(attrs={'cols': 80, 'rows': 80})

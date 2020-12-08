@@ -1,5 +1,5 @@
 <div class="container">
-  <a href="index3.html" class="navbar-brand">
+  <a href="{% url 'customer:index' %}" class="navbar-brand">
     {% load static %}
     <img src="{% static 'images/DBS-LOGO.PNG' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
          style="opacity: .8">
@@ -10,20 +10,22 @@
     <li class="nav-item">
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a href="{% url 'customer:index' %}" class="nav-link">Home</a>
+      <a href="{% url 'customer:house' %}" class="nav-link ">House</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a href="#" class="nav-link">Car</a>
+      <a href="{% url 'customer:car' %}" class="nav-link">Car</a>
     </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a href="#" class="nav-link">House</a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a href="{% url 'customer:carItemPost' %}" class="nav-link">Add Car Item</a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a href="{% url 'customer:houseItemPost' %}" class="nav-link">Add House Item</a>
-    </li>
+    
+    {% if user.is_authenticated %}
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'customer:carItemPost' %}" class="nav-link">Add Car </a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'customer:houseItemPost' %}" class="nav-link">Add House </a>
+      </li>
+    {% endif %}
+      
+
   </ul>
   <!-- SEARCH FORM -->
   <form class="form-inline ml-3">

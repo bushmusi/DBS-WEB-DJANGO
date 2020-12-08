@@ -3,15 +3,13 @@ from .models import *
 
 # Register your models here.
 admin.site.register(Account)
-
-
 admin.site.register(House)
 admin.site.register(WatchList)
 admin.site.register(Alert)
 
 
 class ItemPostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'item_name','item_price','availabilty','item_type',)
+    list_display = ( 'item_name','item_price','availabilty','item_type',)
 admin.site.register(ItemPost,ItemPostAdmin)
 
 class PictureAdmin(admin.ModelAdmin):

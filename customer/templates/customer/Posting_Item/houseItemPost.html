@@ -16,7 +16,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form class="form-horizontal " method="POST" action="{% url 'customer:houseItemPost' %}">
+            <form class="form-horizontal " method="POST" action="{% url 'customer:houseItemPost' %}" enctype="multipart/form-data">
 
                 {% if messages %}
                     {% for message in messages %}
@@ -34,13 +34,13 @@
                 {% csrf_token %}
                 <div class="form-group col-md-10 row">
                     <div class="form-group col-md-10 mb-0">
-                        {{ form.title|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-10 mb-0">
                         {{ form.item_name|as_crispy_field }}
                     </div>
                     <div class="form-group col-md-10 mb-0">
                         {{ form.item_price|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-10 mb-0">
+                        {{ form.serviceType|as_crispy_field }}
                     </div>
                     <!-- Below are house forms -->
                         <div class="form-group col-md-10 mb-0 houseForm">
@@ -55,22 +55,16 @@
                         <div class="form-group col-md-10 mb-0 houseForm">
                             {{ houseForm.house_description|as_crispy_field }}
                         </div>
+                        <div class="form-group col-md-10 mb-0 houseForm">
+                            {{ houseForm.lat|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-10 mb-0 houseForm">
+                            {{ houseForm.longt|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-10 mb-0 houseForm">
+                            {{picForm.as_table }}
+                        </div>
                     <!-- End of house forms -->
-
-                    <!-- Done by Biniam Below are for uploading multiple image -->
-                    <div class="form-group col-md-10 mb-0 houseForm">
-                        {{ houseForm.area|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-10 mb-0 houseForm">
-                        {{ houseForm.bank_loan|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-10 mb-0 houseForm">
-                        {{ houseForm.bed_unit|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-10 mb-0 houseForm">
-                        {{ houseForm.house_description|as_crispy_field }}
-                    </div>
-                <!-- End of uploading multiple image  -->
                     
 
                 </div>

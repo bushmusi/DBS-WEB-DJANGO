@@ -1,0 +1,361 @@
+{% for post in posts %}
+        
+    {% if post.item_type == 'house' %}
+
+        {% for n in post.house_set.all %}
+
+            <!-- Default box -->
+            <div class="card card-solid">
+                <div class="card-body">
+                    
+                    <div class="ribbon-wrapper">
+
+                        {% if post.availabilty %}
+                            <div class="ribbon bg-danger">
+                            Sold out
+                            </div>
+                        {% else %}
+                            <div class="ribbon bg-success">
+                            Available
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <h3 class="d-inline-block d-sm-none"></h3>
+                            <div class="col-12">
+                            {% load static %}
+                            <a href="#" target="_blank" rel="noopener noreferrer">
+                                {% for u in post.picture_set.all %}
+                                    <img src="{{ MEDIA_URL }}{{ u.path_addr }}" class="product-image" alt="Product Image">
+                                {% endfor %}
+                            </a>
+                        </div>
+                        
+                        {% comment %}
+                            <div class="col-12 product-image-thumbs">
+                                <div class="product-image-thumb active"><img src="{% static 'images/ap.jpg' %}" alt="Product Image"></div>
+                                <div class="product-image-thumb" ><img src="{% static 'images/house 4.jpg' %}" alt="Product Image"></div>
+                                <div class="product-image-thumb" ><img src="{% static 'images/house 2.png' %}" alt="Product Image"></div>
+                                <div class="product-image-thumb" ><img src="{% static 'images/house 3.jfif' %}" alt="Product Image"></div>
+                                <div class="product-image-thumb" ><img src="{% static 'images/house 5.jfif' %}" alt="Product Image"></div>
+                            </div>
+                        {% endcomment %}
+                            
+  
+                        {% if post.item_type == 'house' %}
+                            <div id='map{{ n.id|escapejs }}' style='width: 350px; height: 300px;'  class="mt-2 ">
+                            
+                            </div>
+                            <script>
+                            temp  =  'map'+'{{ n.id|escapejs }}';
+                            var longt =  '{{ n.lat|escapejs }}' ;
+                            var lat = '{{ n.longt|escapejs }}';
+                            console.log('longt: '+longt+' lat: '+lat)
+                            mapboxgl.accessToken = 'pk.eyJ1IjoiYnVzaG11c2kiLCJhIjoiY2tpYzc5MG11MDR0eTJ1bndmNHg1cWhpYyJ9.hnq3L3LOIUA5Y_w-KsVEow';
+                            var map = new mapboxgl.Map({
+                                container: 'map'+'{{ n.id|escapejs }}',
+                                // style: 'mapbox://styles/mapbox/streets-v11'
+                                style: 'mapbox://styles/mapbox/streets-v10',
+                                center: [longt,lat],
+                                zoom: 3,
+                                // bearing: 180,
+                            });
+                            var marker = new mapboxgl.Marker() // initialize a new marker
+                                .setLngLat([longt,lat]) // Marker [lng, lat] coordinates
+                                .addTo(map); // Add the marker to the map
+                            // </script>
+                        {% endif %} 
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <a href="http://" target="_blank" rel="noopener noreferrer" class="btn btn-light">
+                        <h3 class="my-3">{{ post.item_name }} **** {{post.serviceType}}</h3>
+                        </a>
+                        <div class="col-md-12">
+                            <table class="table">
+                            <thead>
+                                <tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if post.item_type == 'house' %}
+                                    <tr>
+                                    <td ><strong>Area:</strong> </td>
+                                    <td>{{n.area}}</td>
+                                    </tr>
+                                    <tr>
+                                    <td ><strong>Bank Loan:</strong> </td>
+                                    <td>{{n.bank_loan}}</td>
+                                    </tr>
+                                    <tr>
+                                    <td ><strong>Bed Unit:</strong> </td>
+                                    <td>{{n.bed_unit}}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if post.item_post_id.item_type == 'car' %}
+                                <tr>
+                                    <td ><strong>Model:</strong> </td>
+                                    <td>{{n.car_model}}</td>
+                                </tr>
+                                <tr>
+                                    <td ><strong>Mileage:</strong> </td>
+                                    <td>{{n.mileage}}</td>
+                                </tr>
+                                <tr>
+                                    <td ><strong>Transmition:</strong> </td>
+                                    <td>{{n.transmission}}</td>
+                                </tr>
+                                <tr>
+                                    <td ><strong>Engine:</strong> </td>
+                                    <td>{{n.engine_type}}</td>
+                                </tr>
+                                <tr>
+                                    <td ><strong>Condition:</strong> </td>
+                                    <td>{{n.car_condition}}</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                            </table>
+                        </div>
+                        
+                        <hr>
+                        <h4>Rate:</h4>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <div class="rating text-left"> 
+                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
+                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
+                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> 
+                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
+                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                        </div>
+                        </div>
+
+
+                        <div class="bg-gray py-2 px-3 mt-4">
+                        <h2 class="mb-0">
+                           {{post.item_price}} Birr
+                        </h2>
+                        </div>
+                        
+                        {% if user.is_authenticated %}
+                        <div class="mt-4">
+                            <a type="submit" href="{% url 'customer:submitWishList' %}">
+                                <div class="btn btn-default btn-lg btn-flat">
+                                  <i class="fas fa-heart fa-lg mr-2"></i> 
+                                    Add to Wishlist
+                                </div>
+                              </a>
+                        </div>
+                        {% endif %}
+                        
+
+
+                        <div class="mt-4 product-share">
+                        <a href="#" class="text-gray">
+                            <i class="fab fa-facebook-square fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-gray">
+                            <i class="fab fa-twitter-square fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-gray">
+                            <i class="fas fa-envelope-square fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-gray">
+                            <i class="fas fa-rss-square fa-2x"></i>
+                        </a>
+                        </div>
+
+                    </div>
+                    </div>
+                    <div class="row mt-4">
+                    <nav class="w-100">
+                        <div class="nav nav-tabs" id="product-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content p-3" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
+                            {% autoescape off %}
+                                {{ n.house_description }}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            <hr>
+        {% endfor %}
+    {% elif post.item_type == 'car' %}
+        <!-- Start If the post is car retrieve this one  -->
+        {% for n in post.cars_set.all %}
+
+            <!-- Default box -->
+            <div class="card card-solid">
+                <div class="card-body">
+                    <div class="ribbon-wrapper">
+
+                        {% if post.availabilty %}
+                            <div class="ribbon bg-danger">
+                            Sold out
+                            </div>
+                        {% else %}
+                            <div class="ribbon bg-success">
+                            Available
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <h3 class="d-inline-block d-sm-none"></h3>
+                            <div class="col-12">
+                            {% load static %}
+                            <a href="#" target="_blank" rel="noopener noreferrer">
+                                {% for u in post.picture_set.all %}
+                                    <img src="{{ MEDIA_URL }}{{ u.path_addr }}" class="product-image" alt="Product Image">
+                                {% endfor %}
+                            </a>
+                        </div>
+                        
+                            
+ 
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-light">
+                        <h3 class="my-3">{{ post.item_name }} **** {{post.serviceType}}</h3>
+                        </a>
+                        <div class="col-md-12">
+                            <table class="table">
+                            <thead>
+                                <tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td ><strong>Model:</strong> </td>
+                                    <td>{{n.car_model}}</td>
+                                </tr>
+                                <tr>
+                                    <td ><strong>Mileage:</strong> </td>
+                                    <td>{{n.mileage}}</td>
+                                </tr>
+                                <tr>
+                                    <td ><strong>Transmition:</strong> </td>
+                                    <td>{{n.transmission}}</td>
+                                </tr>
+                                <tr>
+                                    <td ><strong>Engine:</strong> </td>
+                                    <td>{{n.engine_type}}</td>
+                                </tr>
+                                <tr>
+                                    <td ><strong>Condition:</strong> </td>
+                                    <td>{{n.car_condition}}</td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                        
+                        <hr>
+                        <h4>Rate:</h4>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <div class="rating text-left"> 
+                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
+                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
+                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> 
+                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
+                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                        </div>
+                        </div>
+
+
+                        <div class="bg-gray py-2 px-3 mt-4">
+                        <h2 class="mb-0">
+                        {{post.item_price}} Birr
+                        </h2>
+                        </div>
+                        
+                        {% if user.is_authenticated %}
+                        <div class="mt-4">
+                            <div class="btn btn-default btn-lg btn-flat">
+                            <i class="fas fa-heart fa-lg mr-2"></i> 
+                            Add to Wishlist
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+
+
+                        <div class="mt-4 product-share">
+                        <a href="#" class="text-gray">
+                            <i class="fab fa-facebook-square fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-gray">
+                            <i class="fab fa-twitter-square fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-gray">
+                            <i class="fas fa-envelope-square fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-gray">
+                            <i class="fas fa-rss-square fa-2x"></i>
+                        </a>
+                        </div>
+
+                    </div>
+                    </div>
+                    <div class="row mt-4">
+                    <nav class="w-100">
+                        <div class="nav nav-tabs" id="product-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content p-3" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
+                            {% autoescape off %}
+                                {{ n.car_description }}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            <hr>
+        {% endfor %}
+        <!-- End of post is car list -->
+    {% endif %}  
+
+{% endfor %}
+
+{% if posts.has_other_pages %}
+    <ul class="pagination">
+        {% if posts.has_previous %}
+            <li class="page-item"><a href="?page={{ users.previous_page_number }}" class="page-link">&laquo;</a></li>
+        {% else %}
+        <li class="page-item disabled"><span>&laquo;</span></li>
+        {% endif %}
+
+        {% for i in posts.paginator.page_range %}
+            {% if posts.number == i %}
+                <li class="page-item active">
+                <a href="?page={{ i }}" class="page-link">
+                    <span>{{ i }} <span class="sr-only">(current)</span></span>
+                </a>
+                </li>
+            {% else %}
+                <li class="page-item"><a href="?page={{ i }}"  class="page-link">{{ i }} </a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+            <li class="page-item"><a href="?page={{ users.next_page_number }}"  class="page-link">&raquo;</a></li>
+            {% else %}
+            <li class="page-item disabled"><span>&raquo;</span></li>
+        {% endif %}
+    </ul>
+{% endif %}
